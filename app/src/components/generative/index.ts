@@ -5,3 +5,5 @@ export * from "./modelProviderUtils";
 export * from "./useModelMenuData";
 export * from "./ProviderBrowserCredentialsPanel";
 export * from "./ProviderServerCredentialsPanel";
+export * from "./ProviderCredentialCallout";
+export * from "./useModelCredentialStatus";
