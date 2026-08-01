@@ -73,6 +73,7 @@ export function SpanSelectionToolbar(props: SpanSelectionToolbarProps) {
   const [error, setError] = useState<string | null>(null);
   const [isCreatingDataset, setIsCreatingDataset] = useState(false);
   const [isDatasetPopoverOpen, setIsDatasetPopoverOpen] = useState(false);
+  const [isEvaluatePanelOpen, setIsEvaluatePanelOpen] = useState(false);
   const [isDeletingTracesDialogOpen, setIsDeletingTracesDialogOpen] =
     useState(false);
   const { projectName, selectedSpans, onClearSelection } = props;
@@ -233,11 +234,15 @@ export function SpanSelectionToolbar(props: SpanSelectionToolbarProps) {
             </Popover>
           </DialogTrigger>
           {/* Tracing → evaluation bridge: guide for scoring the selection */}
-          <DialogTrigger>
+          <DialogTrigger
+            isOpen={isEvaluatePanelOpen}
+            onOpenChange={setIsEvaluatePanelOpen}
+          >
             <Button
               size="M"
               leadingVisual={<Icon svg={<Icons.Scale />} />}
               aria-label="Evaluate selected spans"
+              onPress={() => setIsEvaluatePanelOpen(true)}
             >
               Evaluate
             </Button>
@@ -246,6 +251,12 @@ export function SpanSelectionToolbar(props: SpanSelectionToolbarProps) {
                 <EvaluateSpansDialog
                   projectName={projectName}
                   spanIds={spanIds}
+                  onAddToDataset={() => {
+                    // Hand off to the "Add to Dataset" flow: close this
+                    // slide-over, then open the dataset selector popover.
+                    setIsEvaluatePanelOpen(false);
+                    setIsDatasetPopoverOpen(true);
+                  }}
                 />
               </Modal>
             </ModalOverlay>
