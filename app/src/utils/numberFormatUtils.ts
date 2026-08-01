@@ -81,7 +81,9 @@ export function formatNumber(number: number): string {
 
 /**
  * Formats a cost value in dollars.
- * Provides special handling for small and zero costs.
+ * Provides special handling for small and zero costs: sub-cent costs keep
+ * enough precision to stay distinguishable (e.g. "$0.0023") instead of all
+ * rounding down to "$0".
  * @param cost The cost value in dollars
  * @returns {string} The formatted cost string with dollar sign
  */
@@ -89,9 +91,12 @@ export function formatCost(cost: number): string {
   if (cost === 0) {
     return "$0";
   }
-  if (cost < 0.01) {
-    return "<$0.01";
+  if (cost < 0.0001) {
+    return "<$0.0001";
   }
+  // Sub-cent costs: show up to 4 decimal places so small usage reads as a
+  // real cost (and axis ticks don't repeat) rather than rounding to "$0"
+  if (cost < 0.01) return `$${format(",.4~f")(cost)}`;
   // Show 2 decimal places for small costs under 100
   if (cost < 100) return `$${format("0.2f")(cost)}`;
   if (cost < 10000) return `$${format(",")(cost)}`;

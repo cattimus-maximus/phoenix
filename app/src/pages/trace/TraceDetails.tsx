@@ -252,16 +252,16 @@ function TraceHeader({
           <TooltipTrigger delay={0}>
             <Focusable>
               <Text size="L" role="button">
-                {costFormatter(costSummary?.total?.cost ?? 0)}
+                {costFormatter(costSummary?.total?.cost)}
               </Text>
             </Focusable>
             <RichTooltip placement="bottom">
               <TooltipArrow />
               <View width="size-3600">
                 <TokenCostsDetails
-                  total={costSummary?.total?.cost ?? 0}
-                  prompt={costSummary?.prompt?.cost ?? 0}
-                  completion={costSummary?.completion?.cost ?? 0}
+                  total={costSummary?.total?.cost}
+                  prompt={costSummary?.prompt?.cost}
+                  completion={costSummary?.completion?.cost}
                 />
               </View>
             </RichTooltip>

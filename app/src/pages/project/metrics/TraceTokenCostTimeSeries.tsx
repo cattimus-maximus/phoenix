@@ -35,10 +35,7 @@ import {
   PROJECT_METRICS_CHART_SYNC_ID,
   useMetricQueryFetchOptions,
 } from "@phoenix/pages/project/metrics/types";
-import {
-  costFormatter,
-  floatShortFormatter,
-} from "@phoenix/utils/numberFormatUtils";
+import { costFormatter } from "@phoenix/utils/numberFormatUtils";
 
 import type { TraceTokenCostTimeSeriesQuery } from "./__generated__/TraceTokenCostTimeSeriesQuery.graphql";
 
@@ -161,7 +158,7 @@ export function TraceTokenCostTimeSeries({
               />
               <YAxis
                 {...compactYAxisProps}
-                tickFormatter={(x) => `$${floatShortFormatter(x)}`}
+                tickFormatter={(x) => costFormatter(x)}
               />
               <Tooltip
                 content={TooltipContent}

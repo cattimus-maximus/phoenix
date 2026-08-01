@@ -94,16 +94,16 @@ export function ProjectStats(props: { project: ProjectStats_project$key }) {
         <TooltipTrigger delay={0}>
           <Focusable>
             <Text size="L" role="button" fontFamily="mono">
-              {costFormatter(data?.costSummary?.total?.cost ?? 0)}
+              {costFormatter(data?.costSummary?.total?.cost)}
             </Text>
           </Focusable>
           <RichTooltip placement="bottom">
             <TooltipArrow />
             <View width="size-3600">
               <TokenCostsDetails
-                total={data?.costSummary?.total?.cost ?? 0}
-                prompt={data?.costSummary?.prompt?.cost ?? 0}
-                completion={data?.costSummary?.completion?.cost ?? 0}
+                total={data?.costSummary?.total?.cost}
+                prompt={data?.costSummary?.prompt?.cost}
+                completion={data?.costSummary?.completion?.cost}
               />
             </View>
           </RichTooltip>

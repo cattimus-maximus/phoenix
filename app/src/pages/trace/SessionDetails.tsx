@@ -102,30 +102,24 @@ function SessionDetailsHeader({
               </Text>
               <TooltipTrigger delay={0}>
                 <TriggerWrap>
-                  <Text size="L">
-                    {costFormatter(costSummary.total?.cost ?? 0)}
-                  </Text>
+                  <Text size="L">{costFormatter(costSummary.total?.cost)}</Text>
                 </TriggerWrap>
                 <RichTooltip placement="bottom">
                   <View width="size-2400">
                     <Flex direction="column">
                       <Flex justifyContent="space-between">
                         <Text>Prompt Cost</Text>
-                        <Text>
-                          {costFormatter(costSummary.prompt?.cost ?? 0)}
-                        </Text>
+                        <Text>{costFormatter(costSummary.prompt?.cost)}</Text>
                       </Flex>
                       <Flex justifyContent="space-between">
                         <Text>Completion Cost</Text>
                         <Text>
-                          {costFormatter(costSummary.completion?.cost ?? 0)}
+                          {costFormatter(costSummary.completion?.cost)}
                         </Text>
                       </Flex>
                       <Flex justifyContent="space-between">
                         <Text>Total Cost</Text>
-                        <Text>
-                          {costFormatter(costSummary.total?.cost ?? 0)}
-                        </Text>
+                        <Text>{costFormatter(costSummary.total?.cost)}</Text>
                       </Flex>
                     </Flex>
                   </View>
