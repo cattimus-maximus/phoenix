@@ -4,7 +4,12 @@ import {
   ONE_SECOND_MS,
 } from "@phoenix/constants/timeConstants";
 
-import { formatFloat, formatInt, formatLatencyMs } from "../numberFormatUtils";
+import {
+  formatCost,
+  formatFloat,
+  formatInt,
+  formatLatencyMs,
+} from "../numberFormatUtils";
 
 describe("formatInt", () => {
   it("formats integers cleanly", () => {
@@ -49,5 +54,28 @@ describe("formatLatencyMs", () => {
     expect(
       formatLatencyMs(ONE_HOUR_MS + 15 * ONE_MINUTE_MS + 27 * ONE_SECOND_MS)
     ).toEqual("1h 15m 27s");
+  });
+});
+
+describe("formatCost", () => {
+  it("formats zero cost as $0", () => {
+    expect(formatCost(0)).toEqual("$0");
+  });
+  it("keeps sub-cent costs distinguishable instead of rounding to $0", () => {
+    expect(formatCost(0.0021)).toEqual("$0.0021");
+    expect(formatCost(0.002)).toEqual("$0.002");
+    expect(formatCost(0.0001)).toEqual("$0.0001");
+    expect(formatCost(0.009999)).toEqual("$0.01");
+  });
+  it("floors vanishingly small costs at <$0.0001", () => {
+    expect(formatCost(0.00005)).toEqual("<$0.0001");
+    expect(formatCost(0.0000012)).toEqual("<$0.0001");
+  });
+  it("formats regular costs", () => {
+    expect(formatCost(0.01)).toEqual("$0.01");
+    expect(formatCost(1.5)).toEqual("$1.50");
+    expect(formatCost(99.999)).toEqual("$100.00");
+    expect(formatCost(1234)).toEqual("$1,234");
+    expect(formatCost(1234567)).toEqual("$1.2M");
   });
 });

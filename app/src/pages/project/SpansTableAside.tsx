@@ -119,16 +119,16 @@ export function SpansTableAside(props: { filterCondition?: string | null }) {
                 <TooltipTrigger delay={0}>
                   <Focusable>
                     <Text size="L" role="button" fontFamily="mono">
-                      {costFormatter(project?.costSummary?.total?.cost ?? 0)}
+                      {costFormatter(project?.costSummary?.total?.cost)}
                     </Text>
                   </Focusable>
                   <RichTooltip placement="bottom">
                     <TooltipArrow />
                     <View width="size-3600">
                       <TokenCostsDetails
-                        total={project?.costSummary?.total?.cost ?? 0}
-                        prompt={project?.costSummary?.prompt?.cost ?? 0}
-                        completion={project?.costSummary?.completion?.cost ?? 0}
+                        total={project?.costSummary?.total?.cost}
+                        prompt={project?.costSummary?.prompt?.cost}
+                        completion={project?.costSummary?.completion?.cost}
                       />
                     </View>
                   </RichTooltip>
