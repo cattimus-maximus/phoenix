@@ -28,6 +28,7 @@ const savedViewsPopoverCSS = css`
 const savedViewsListCSS = css`
   display: flex;
   flex-direction: column;
+  gap: var(--ac-global-dimension-size-100);
   max-height: 240px;
   overflow-y: auto;
 `;
