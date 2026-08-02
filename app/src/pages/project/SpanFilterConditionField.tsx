@@ -4,12 +4,14 @@ import { fetchQuery, graphql } from "relay-runtime";
 
 import type { AgentContext } from "@phoenix/agent/context/agentContextTypes";
 import { useAdvertiseAgentContext } from "@phoenix/agent/context/useAdvertiseAgentContext";
+import { Flex } from "@phoenix/components";
 import {
   createAnnotationMemberCompletions,
   DSLFilterConditionField,
   type DSLFilterSnippet,
   type DSLFilterValidationFailureReason,
   type DSLFilterValidConditionArgs,
+  SavedFilterViewsMenu,
   useDSLFilterConditionHistory,
 } from "@phoenix/components/filter";
 import { useTracingContext } from "@phoenix/contexts/TracingContext";
@@ -325,11 +327,12 @@ export function SpanFilterConditionField(props: SpanFilterConditionFieldProps) {
   // Recent searches are keyed per project rather than globally: filter
   // expressions routinely reference project-specific names (annotations,
   // metadata keys), so another project's history would be noise
+  const historyKey = `span-filter-${projectId}`;
   const {
     completionSource: recentSearchesCompletionSource,
     recordValidCondition,
   } = useDSLFilterConditionHistory({
-    historyKey: `span-filter-${projectId}`,
+    historyKey,
   });
 
   const completionSources = useMemo(
@@ -393,20 +396,34 @@ export function SpanFilterConditionField(props: SpanFilterConditionFieldProps) {
   useAdvertiseAgentContext(advertisedContext);
 
   return (
-    <DSLFilterConditionField
-      aria-label="Filter spans"
-      value={filterCondition}
-      onChange={setFilterCondition}
-      placeholder={placeholder}
-      completions={spanFilterCompletions}
-      snippets={spanFilterSnippets}
-      completionSources={completionSources}
-      loadCompletions={loadAnnotationCompletions}
-      validateCondition={validateCondition}
-      onValidCondition={handleValidCondition}
-      onValidationFailed={onValidationFailed}
-      validationRetryKey={validationRetryKey}
-      onValidationStateChange={setIsConditionValid}
-    />
+    <Flex
+      direction="row"
+      gap="size-100"
+      alignItems="center"
+      flex="1 1 auto"
+      minWidth={0}
+    >
+      <DSLFilterConditionField
+        aria-label="Filter spans"
+        value={filterCondition}
+        onChange={setFilterCondition}
+        placeholder={placeholder}
+        completions={spanFilterCompletions}
+        snippets={spanFilterSnippets}
+        completionSources={completionSources}
+        loadCompletions={loadAnnotationCompletions}
+        validateCondition={validateCondition}
+        onValidCondition={handleValidCondition}
+        onValidationFailed={onValidationFailed}
+        validationRetryKey={validationRetryKey}
+        onValidationStateChange={setIsConditionValid}
+      />
+      <SavedFilterViewsMenu
+        historyKey={historyKey}
+        currentCondition={filterCondition}
+        canSave={isConditionValid && filterCondition.trim() !== ""}
+        onApply={setFilterCondition}
+      />
+    </Flex>
   );
 }
