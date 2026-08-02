@@ -28,7 +28,7 @@ const savedViewsPopoverCSS = css`
 const savedViewsListCSS = css`
   display: flex;
   flex-direction: column;
-  gap: var(--ac-global-dimension-size-100);
+  gap: var(--ac-global-dimension-size-50);
   max-height: 240px;
   overflow-y: auto;
 `;
@@ -41,19 +41,27 @@ const savedViewRowCSS = css`
   .saved-view-row__apply {
     flex: 1 1 auto;
     min-width: 0;
+    /* Let the button grow to fit the two stacked lines instead of clipping
+       them at the fixed single-line height, which made rows collide */
+    height: auto;
     justify-content: flex-start;
     text-align: left;
+    padding-top: var(--ac-global-dimension-size-75);
+    padding-bottom: var(--ac-global-dimension-size-75);
   }
 
-  .saved-view-row__name {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .saved-view-row__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ac-global-dimension-size-25);
+    min-width: 0;
+    width: 100%;
   }
 
+  .saved-view-row__name,
   .saved-view-row__condition {
     display: block;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -193,7 +201,7 @@ export function SavedFilterViewsMenu({
                           className="saved-view-row__apply"
                           onPress={() => onApplyView(view.condition)}
                         >
-                          <span>
+                          <span className="saved-view-row__content">
                             <span className="saved-view-row__name">
                               <Text size="S">{view.name}</Text>
                             </span>
